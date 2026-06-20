@@ -5,6 +5,13 @@
     // 오직 화면에 보이는 DOM(.mes_text)의 display 속성만 토글하고,
     // 접힘 상태는 브라우저 localStorage 에만 저장합니다.
 
+    // 브라우저 언어가 한국어('ko')로 시작하면 한국어, 그 외에는 영어로 설정
+    const isKorean = navigator.language.startsWith('ko');
+
+    const TEXT_SUMMARY = isKorean 
+        ? "▶ 펼치기" 
+        : "▶ Click to expand";
+
     const BTN_CLASS = 'mes-collapse-btn';
     const SUMMARY_CLASS = 'mes-collapse-summary';
     const STORAGE_PREFIX = 'st_mesCollapse_';
