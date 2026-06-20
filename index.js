@@ -116,13 +116,29 @@
     });
 
     function init() {
-        // 확장 로드 시점에 이미 화면에 떠 있는 메시지들 1회 스캔
+        // 확장 로드 시점에 이미 화면에 떠 있는 메시지들 1회 전체 스캔
         scan();
 
-        // 이후로는 새 메시지 추가/스와이프(노드 교체)만 MutationObserver로 감지
+        // 이후로는 새로 추가된 노드만 골라서 처리 (전체 재스캔 X)
         const chatEl = document.getElementById('chat');
         if (chatEl) {
-            const observer = new MutationObserver(() => scan());
+            const observer = new MutationObserver((mutations) => {
+                for (const mutation of mutations) {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType !== 1) return; // 텍스트 노드 등은 무시
+
+                        const $node = $(node);
+                        if ($node.hasClass('mes')) {
+                            ensureUi($node);
+                        } else {
+                            // 혹시 .mes가 래퍼 노드 안에 중첩되어 추가되는 경우 대비
+                            $node.find('.mes').each(function () {
+                                ensureUi($(this));
+                            });
+                        }
+                    });
+                }
+            });
             observer.observe(chatEl, { childList: true, subtree: false });
         }
     }
