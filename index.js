@@ -116,16 +116,15 @@
     });
 
     function init() {
+        // 확장 로드 시점에 이미 화면에 떠 있는 메시지들 1회 스캔
         scan();
 
+        // 이후로는 새 메시지 추가/스와이프(노드 교체)만 MutationObserver로 감지
         const chatEl = document.getElementById('chat');
         if (chatEl) {
             const observer = new MutationObserver(() => scan());
             observer.observe(chatEl, { childList: true, subtree: false });
         }
-
-        // 채팅 전환/스와이프 등으로 버튼이 사라지는 경우를 대비한 안전망
-        setInterval(scan, 2500);
     }
 
     if (document.readyState === 'loading') {
