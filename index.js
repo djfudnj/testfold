@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    // 이 확장은 채팅 데이터(chat 배열, chat.jsonl)에는 절대 손대지 않습니다.
+    // 이 확장은 채팅 데이터(chat 배열, chat.jsonl)에는 손대지 않습니다.
     // 오직 화면에 보이는 DOM(.mes_text)의 display 속성만 토글하고,
     // 접힘 상태는 브라우저 localStorage 에만 저장합니다.
 
@@ -105,7 +105,7 @@
         const $text = $mes.find('.mes_text').first();
         if ($text.length && !$mes.find('.' + SUMMARY_CLASS).length) {
             const $summary = $(
-                `<div class="${SUMMARY_CLASS}">📄 내용이 접혀 있습니다 — 클릭하여 펼치기</div>`
+                `<div class="${SUMMARY_CLASS}">▶ 클릭하여 펼치기</div>`
             );
             $summary.hide();
             $text.after($summary);
